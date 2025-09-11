@@ -21,7 +21,7 @@ export const Header = () => {
   const headerMenuItems = [
     { label: "Independent Message", path: "/independent" },
     { label: "Dependent Message", path: "/dependent" },
-    { label: "Fields Mapping", path: "/fields-mapping" },
+    { label: "Fields Mapping", path: "/field-mapping" },
     { label: "Upload XSD", path: "/upload-xsd" },
   ];
 
@@ -33,13 +33,12 @@ export const Header = () => {
         }
         appHeaderMenuItems={headerMenuItems}
         selectedMenu={selectedHeader.label}
+        leftContent={<div style={{height:'10px'}}></div>}
         width="100%"
         onMenuClick={(item) => {
           setSelectedHeader(item);
           navigate(item.path);
         }}
-
-        // hideNavbar
       />
     </div>
   );

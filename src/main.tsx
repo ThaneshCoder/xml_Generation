@@ -12,9 +12,9 @@ if (root) {
   createRoot(root).render(
     <StrictMode>
       <Provider store={store}>
-      <ThemeProvider>
-        <App />
-      </ThemeProvider>
+        <ThemeProvider>
+          <App />
+        </ThemeProvider>
       </Provider>
     </StrictMode>
   );

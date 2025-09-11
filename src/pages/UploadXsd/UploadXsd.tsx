@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { AttachmentButton, Button, checkEmpty, Typography } from "pixel-react";
+import {
+  AttachmentButton,
+  Button,
+  checkEmpty,
+  toast,
+  Typography,
+} from "pixel-react";
 import { useUploadXsdMutation } from "@/store/XmlServiceData/xmlServiceDataApi";
 
 export const UploadXsd = () => {
@@ -9,37 +15,70 @@ export const UploadXsd = () => {
   const handleUpload = async () => {
     if (checkEmpty(selectedFile)) return;
     try {
-      const res = await uploadXsd(selectedFile[0]).unwrap();
-      console.log("Upload success:", res);
+      const formData = new FormData();
+      formData.append("file", selectedFile[0]);
+      const res = await uploadXsd(formData).unwrap();
+      if (res.responseCode === 200) {
+        toast.success("File Uploaded Successfully");
+      } else {
+        toast.error(res.message);
+      }
     } catch (err) {
-      console.error("Upload failed:", err);
+      toast.error("Uploaded Failed");
     }
   };
 
   return (
-    <div style={{ marginTop: "60px",height:"30px" ,width:"100%", }}>
-      <AttachmentButton
-        multiple={false}
-        label={"Upload XSD"}
-        maxFiles={3}
-        selectedFiles={selectedFile}
-        onFilesChange={(e) => {
-          console.log(e);
-          setSelectedFile(e);
+    <div
+      style={{
+        marginTop: "70px",
+        height: "50px",
+        width: "100%",
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "center",
+      }}
+    >
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
         }}
-        deleteButton={true}
-        addAttachmentButton={false}
-      />
-      <Button
-        variant="primary"
-        disabled={checkEmpty(selectedFile) || isLoading}
-        onClick={handleUpload}
       >
-        {isLoading ? "Uploading..." : "Upload XSD"}
-      </Button>
-
-      {isSuccess && <Typography color="green">Upload successful ✅</Typography>}
-      {error && <Typography color="red">Failed to upload ❌</Typography>}
+        <Typography fontSize={15}>Add XSD file : </Typography>
+        <div style={{ display: "flex" }}>
+          <AttachmentButton
+            multiple={false}
+            label={"Upload XSD"}
+            maxFiles={3}
+            selectedFiles={selectedFile}
+            onFilesChange={(e) => {
+              setSelectedFile(e);
+            }}
+            deleteButton={true}
+            addAttachmentButton={false}
+            isInfoIconRequired={false}
+          />
+        </div>
+      </div>
+      {!checkEmpty(selectedFile) && (
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "center",
+            marginTop: "10px",
+          }}
+        >
+          <Button
+            buttonHeight="25px"
+            variant="secondary"
+            onClick={handleUpload}
+          >
+            Upload to Database
+          </Button>
+        </div>
+      )}
     </div>
   );
 };

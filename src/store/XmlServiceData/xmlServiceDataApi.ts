@@ -13,12 +13,28 @@ export const xmlServiceDataApi = createApi({
         url: "/api/xsdList",
       }),
     }),
-    uploadXsd: builder.mutation({
-      query: (file) => {
-        const formData = new FormData();
-        formData.append("file", file);
+    uploadXsd: builder.mutation<XsdListResponse, FormData>({
+      query: (formData) => {
         return {
           url: "/api/uploadXsd",
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+    generateXml: builder.mutation<LoadXsdResponse, FormData>({
+      query: (formData) => {
+        return {
+          url: "/api/generate-xml",
+          method: "POST",
+          body: formData,
+        };
+      },
+    }),
+    extractFields: builder.mutation<XsdListResponse, FormData>({
+      query: (formData) => {
+        return {
+          url: "/api/extract-fields",
           method: "POST",
           body: formData,
         };
@@ -36,5 +52,7 @@ export const {
   useLazyXsdListQuery,
   useUploadXsdMutation,
   useLoadXsdQuery,
+  useExtractFieldsMutation,
+  useGenerateXmlMutation,
   useLazyLoadXsdQuery,
 } = xmlServiceDataApi;
