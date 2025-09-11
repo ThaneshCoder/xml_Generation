@@ -25,7 +25,13 @@ export const FieldCard = ({ mapName }) => {
   const [optionsList, setOptionsList] = useState<
     { label: string; value: string }[]
   >([]);
-  const [FieldList, setFieldList] = useState<string[]>([]);
+  const [FieldList, setFieldList] = useState<
+    { label: string; value: string }[]
+  >([]);
+  const [SelectedFieldList, setSelectedFieldList] = useState<{
+    label: string;
+    value: string;
+  }>({ label: "", value: "" });
 
   const [maxRepsUnbound, setMaxRepsUnbound] = useState(1);
   const [includeOptionalParams, setIncludeOptionalParams] = useState(false);
@@ -55,6 +61,10 @@ export const FieldCard = ({ mapName }) => {
     const selectedValue = { label: e.label, value: e.value };
     setSelectedType(selectedValue);
   };
+  const handleFieldChange = (e: any) => {
+    const selectedValue = { label: e.label, value: e.value };
+    setSelectedFieldList(selectedValue);
+  };
 
   const getExtractFields = async () => {
     if (!selectedType.value) return;
@@ -68,7 +78,11 @@ export const FieldCard = ({ mapName }) => {
       );
       const res = await extractFields(formData).unwrap();
       if (res.responseCode === 200) {
-        setFieldList(res.responseObject);
+        const formatted = res.responseObject.map((item: string) => ({
+          label: item,
+          value: item,
+        }));
+        setFieldList(formatted);
       } else {
         toast.error(res.message);
       }
@@ -166,6 +180,18 @@ export const FieldCard = ({ mapName }) => {
           </Button>
         </div>
       </div>
+      {!checkEmpty(FieldList) && (
+        <div>
+          <Select
+            optionsList={FieldList}
+            selectedOption={SelectedFieldList}
+            label={"Field List"}
+            width={200}
+            disabled={isFetchingList}
+            onChange={handleFieldChange}
+          />
+        </div>
+      )}
       {/* <div>
         <ViewContent type={"xsd"} input={""} fileName={""} />
       </div> */}
