@@ -48,3 +48,15 @@ export interface ApiResponse {
   responseMap: object | null;
   status: string;
 }
+
+export interface Mapping {
+  id: number;
+  name: string;
+  fromXsd: string;
+  fromMaxRepsUnbound: number;
+  fromIncludeParams: boolean;
+  toXsd: string;
+  toMaxRepsUnbound: number;
+  toIncludeParams: boolean;
+  mappings: Record<string, string>;
+}

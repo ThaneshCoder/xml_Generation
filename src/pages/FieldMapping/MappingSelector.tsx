@@ -7,16 +7,25 @@ type MappingSelectorProps = {
   toOptions: Option[];
   fromOptions: Option[];
   onChange?: (mappings: Record<string, string>) => void;
+  initialMappings?: Record<string, string>;
 };
 
 export const MappingSelector = ({
   toOptions,
   fromOptions,
   onChange,
+  initialMappings,
 }: MappingSelectorProps) => {
   const [rows, setRows] = useState<
     { toValue: string | null; fromValue: string | null }[]
-  >([{ toValue: null, fromValue: null }]);
+  >(
+    initialMappings
+      ? Object.entries(initialMappings).map(([toValue, fromValue]) => ({
+          toValue,
+          fromValue,
+        }))
+      : [{ toValue: null, fromValue: null }]
+  );
 
   const handleChange = (
     index: number,
@@ -28,7 +37,6 @@ export const MappingSelector = ({
     setRows(updated);
 
     if (onChange) {
-      // Convert to key-value pairs where key is toValue and value is fromValue
       const mappings: Record<string, string> = {};
       updated
         .filter((r) => r.toValue && r.fromValue)
