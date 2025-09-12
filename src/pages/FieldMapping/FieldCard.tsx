@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
 import {
   Button,
-  Checkbox,
   checkEmpty,
-  Input,
   Select,
   toast,
   Toggle,
@@ -12,12 +10,19 @@ import {
 import {
   useLazyXsdListQuery,
   useLazyLoadXsdQuery,
-  useGenerateXmlMutation,
   useExtractFieldsMutation,
 } from "@/store/XmlServiceData/xmlServiceDataApi";
-import { ViewContent } from "@/components/ViewContent";
 
-export const FieldCard = ({ mapName }) => {
+type FieldCardProps = {
+  mapName: string;
+  onSelectionChange: (selection: {
+    xsdFileName: string;
+    maxRepsUnbound: number;
+    includeOptionalParams: boolean;
+  }) => void;
+};
+
+export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
   const [selectedType, setSelectedType] = useState<{
     label: string;
     value: string;
@@ -60,35 +65,11 @@ export const FieldCard = ({ mapName }) => {
   const handleChange = (e: any) => {
     const selectedValue = { label: e.label, value: e.value };
     setSelectedType(selectedValue);
-  };
-  const handleFieldChange = (e: any) => {
-    const selectedValue = { label: e.label, value: e.value };
-    setSelectedFieldList(selectedValue);
-  };
-
-  const getExtractFields = async () => {
-    if (!selectedType.value) return;
-    try {
-      const formData = new FormData();
-      formData.append("xsdFileName", selectedType.value);
-      formData.append("maxRepsUnbound", maxRepsUnbound.toString());
-      formData.append(
-        "includeOptionalParams",
-        includeOptionalParams.toString()
-      );
-      const res = await extractFields(formData).unwrap();
-      if (res.responseCode === 200) {
-        const formatted = res.responseObject.map((item: string) => ({
-          label: item,
-          value: item,
-        }));
-        setFieldList(formatted);
-      } else {
-        toast.error(res.message);
-      }
-    } catch (err) {
-      console.error("Error generating XML:", err);
-    }
+    onSelectionChange({
+      xsdFileName: e.value,
+      maxRepsUnbound,
+      includeOptionalParams,
+    });
   };
 
   return (
@@ -120,12 +101,6 @@ export const FieldCard = ({ mapName }) => {
           justifyContent: "space-evenly",
         }}
       >
-        {/* <Button variant={"primary"} onClick={handleViewXsd}>
-          View XSD
-        </Button>
-        <Button variant={"primary"}>View XML</Button>
-        <Button variant={"primary"}>Extract Field</Button> */}
-
         <div
           style={{
             width: "180px",
@@ -170,31 +145,8 @@ export const FieldCard = ({ mapName }) => {
               }}
             />
           </div>
-          <Button
-            backgroundColor=""
-            variant="secondary"
-            onClick={getExtractFields}
-            disabled={checkEmpty(selectedType.value)}
-          >
-            "Extract Fields
-          </Button>
         </div>
       </div>
-      {!checkEmpty(FieldList) && (
-        <div>
-          <Select
-            optionsList={FieldList}
-            selectedOption={SelectedFieldList}
-            label={"Field List"}
-            width={200}
-            disabled={isFetchingList}
-            onChange={handleFieldChange}
-          />
-        </div>
-      )}
-      {/* <div>
-        <ViewContent type={"xsd"} input={""} fileName={""} />
-      </div> */}
     </div>
   );
 };

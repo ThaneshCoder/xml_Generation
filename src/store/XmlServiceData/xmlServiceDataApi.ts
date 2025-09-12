@@ -40,6 +40,18 @@ export const xmlServiceDataApi = createApi({
         };
       },
     }),
+    saveMapping: builder.mutation<XsdListResponse, any>({
+      query: (mappingData) => {
+        return {
+          url: "/api/save-mapping",
+          method: "POST",
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(mappingData),
+        };
+      },
+    }),
     loadXsd: builder.query<LoadXsdResponse, string>({
       query: (xsdId: string) => ({
         url: `/api/loadXsd/${xsdId}`,
@@ -53,6 +65,7 @@ export const {
   useUploadXsdMutation,
   useLoadXsdQuery,
   useExtractFieldsMutation,
+  useSaveMappingMutation,
   useGenerateXmlMutation,
   useLazyLoadXsdQuery,
 } = xmlServiceDataApi;
