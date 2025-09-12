@@ -18,7 +18,7 @@ export const ViewContent = ({ type, input, fileName }: ViewContentProps) => {
     type === "xml" ? fileName.replace("xsd", "xml") : fileName;
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(input);
+      await navigator.clipboard.writeText(input);      
       toast.success("Copied to Clipboard");
     } catch (err) {
       toast.error("Failed to copy:");
@@ -30,6 +30,7 @@ export const ViewContent = ({ type, input, fileName }: ViewContentProps) => {
       type: type === "xml" ? "application/xml" : "application/xsd+xml",
     });
     saveFileFromBlob(blob, fileNameWithExtension);
+    toast.success("Downloaded File Successfully");
   };
 
   return (
@@ -38,10 +39,12 @@ export const ViewContent = ({ type, input, fileName }: ViewContentProps) => {
         style={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems:'center'
+          alignItems: "center",
         }}
       >
-        <Typography fontWeight="bold" fontSize={15}>{fileNameWithExtension}</Typography>
+        <Typography fontWeight="bold" fontSize={15}>
+          {fileNameWithExtension}
+        </Typography>
         <div
           style={{
             display: "flex",
@@ -68,7 +71,7 @@ export const ViewContent = ({ type, input, fileName }: ViewContentProps) => {
           padding: "10px",
           margin: 0,
           borderRadius: "6px",
-          scrollbarWidth:"thin"
+          scrollbarWidth: "thin",
         }}
       >
         {input}

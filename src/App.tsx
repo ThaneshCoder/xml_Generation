@@ -2,7 +2,6 @@ import { Routes, Route, BrowserRouter, Navigate } from "react-router-dom";
 import { XmlGenerator } from "./pages/XmlGenerator";
 import { DependentElement } from "./pages/DependentElement/DependentElement";
 import { IndependentElement } from "./pages/IndependentElement/IndependentElement";
-import { ViewXsd } from "./pages/DependentElement/ViewXsdComponent";
 import { UploadXsd } from "./pages/UploadXsd/UploadXsd";
 import { Toastify } from "pixel-react";
 import { FieldMapping } from "./pages/FieldMapping/FieldMapping";
@@ -10,7 +9,6 @@ import { FieldMapping } from "./pages/FieldMapping/FieldMapping";
 function App() {
   return (
     <BrowserRouter>
-      <Toastify />
       <Routes>
         <Route path="/" element={<XmlGenerator />}>
           <Route index element={<Navigate to="/dependent" replace />} />

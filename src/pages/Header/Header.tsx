@@ -26,19 +26,18 @@ export const Header = () => {
   ];
 
   return (
-    <div className={Style.AppHeader} style={{ height: "20px" }}>
+    <div>
       <AppHeader
-        logo={
-          <Icon name="xml_file_type" color="white" isSelected hoverEffect />
-        }
         appHeaderMenuItems={headerMenuItems}
         selectedMenu={selectedHeader.label}
-        leftContent={<div style={{height:'10px'}}></div>}
+        leftContent={<div style={{ height: "10px" }}></div>}
         width="100%"
+        isClient={true}
         onMenuClick={(item) => {
           setSelectedHeader(item);
           navigate(item.path);
         }}
+        logo={undefined}
       />
     </div>
   );

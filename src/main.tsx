@@ -4,18 +4,19 @@ import { createRoot } from "react-dom/client";
 import { StrictMode } from "react";
 import { Provider } from "react-redux";
 import { store } from "./store";
-import { ThemeProvider } from "pixel-react";
+import { ThemeProvider, Toastify } from "pixel-react";
 
 const root = document.getElementById("xmlGenerator");
 
 if (root) {
   createRoot(root).render(
     <StrictMode>
-      <Provider store={store}>
-        <ThemeProvider>
+      <ThemeProvider>
+        <Toastify />
+        <Provider store={store}>
           <App />
-        </ThemeProvider>
-      </Provider>
+        </Provider>
+      </ThemeProvider>
     </StrictMode>
   );
 }

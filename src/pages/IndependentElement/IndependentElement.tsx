@@ -5,7 +5,7 @@ import {
   useLazyLoadXsdQuery,
   useGenerateXmlMutation,
 } from "@/store/XmlServiceData/xmlServiceDataApi";
-import { ViewContent } from "../../components/ViewContent";
+import { ViewContent } from "../components/ViewContent";
 
 export const IndependentElement = () => {
   const [selectedType, setSelectedType] = useState<{

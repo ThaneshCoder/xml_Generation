@@ -18,8 +18,14 @@ export const UploadXsd = () => {
       const formData = new FormData();
       formData.append("file", selectedFile[0]);
       const res = await uploadXsd(formData).unwrap();
+      console.log(res);
+      
       if (res.responseCode === 200) {
         toast.success("File Uploaded Successfully");
+      } else if (res.responseCode === 500) {
+        console.log(res.message);
+        
+        toast.warning(res.message);
       } else {
         toast.error(res.message);
       }
