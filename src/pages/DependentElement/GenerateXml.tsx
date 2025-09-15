@@ -133,7 +133,10 @@ export const GenerateXml = ({
               </label>
               <Button
                 variant="secondary"
-                onClick={() => setFromContent("")}
+                onClick={() => {
+                  setFromContent("");
+                  setToContent("");
+                }}
                 disabled={!fromContent}
               >
                 Clear
@@ -166,7 +169,7 @@ export const GenerateXml = ({
           }}
         >
           <Button
-            variant={"primary"}
+            variant={"secondary"}
             onClick={handleGenerate}
             disabled={!fromContent || !generateMapping?.name || isGenerating}
           >

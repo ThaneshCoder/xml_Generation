@@ -130,15 +130,10 @@ export const FieldMapping = () => {
         }}
       >
         <FieldCard
-          key={"from"}
           mapName="From XSD Type"
           onSelectionChange={setFromSelection}
         />
-        <FieldCard
-          key={"to"}
-          mapName="To XSD Type"
-          onSelectionChange={setToSelection}
-        />
+        <FieldCard mapName="To XSD Type" onSelectionChange={setToSelection} />
       </div>
 
       <div

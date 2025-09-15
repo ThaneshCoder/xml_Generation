@@ -1,32 +1,26 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  checkEmpty,
-  Select,
-  toast,
-  Toggle,
-  Typography,
-} from "pixel-react";
-import {
-  useLazyXsdListQuery,
-  useLazyLoadXsdQuery,
-  useExtractFieldsMutation,
-} from "@/store/XmlServiceData/xmlServiceDataApi";
+import { Select, Toggle, Typography } from "pixel-react";
+import { useLazyXsdListQuery } from "@/store/XmlServiceData/xmlServiceDataApi";
+
+type Selection = {
+  xsdFileName: string;
+  maxRepsUnbound: number;
+  includeOptionalParams: boolean;
+};
 
 type FieldCardProps = {
   mapName: string;
-  onSelectionChange: (selection: {
-    xsdFileName: string;
-    maxRepsUnbound: number;
-    includeOptionalParams: boolean;
-  }) => void;
+  onSelectionChange: (selection: Selection) => void;
 };
 
 export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
   const [selectedType, setSelectedType] = useState<{
     label: string;
     value: string;
-  }>({ label: "", value: "" });
+  }>({
+    label: "",
+    value: "",
+  });
   const [optionsList, setOptionsList] = useState<
     { label: string; value: string }[]
   >([]);
@@ -35,8 +29,6 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
 
   const [fetchXsdList, { isFetching: isFetchingList, error: listError }] =
     useLazyXsdListQuery();
-  const [fetchXsd] = useLazyLoadXsdQuery();
-  const [extractFields] = useExtractFieldsMutation();
 
   useEffect(() => {
     const loadList = async () => {
@@ -54,15 +46,13 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
     loadList();
   }, [fetchXsdList]);
 
-  const handleChange = (e: any) => {
-    const selectedValue = { label: e.label, value: e.value };
-    setSelectedType(selectedValue);
+  useEffect(() => {
     onSelectionChange({
-      xsdFileName: e.value,
+      xsdFileName: selectedType.value,
       maxRepsUnbound,
       includeOptionalParams,
     });
-  };
+  }, [selectedType, maxRepsUnbound, includeOptionalParams]);
 
   return (
     <div>
@@ -74,14 +64,13 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
         }}
       >
         <Typography>{mapName} : </Typography>
-
         <Select
           optionsList={optionsList}
           selectedOption={selectedType}
           label={mapName}
           width={200}
           disabled={isFetchingList}
-          onChange={handleChange}
+          onChange={(e) => setSelectedType({ label: e.label, value: e.value })}
         />
 
         {listError && <Typography color="red">Error loading list</Typography>}
@@ -110,16 +99,12 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
             }}
           >
             <Typography>maxRepsUnbound : </Typography>
-            <div style={{ width: "40px" }}>
-              <input
-                type="number"
-                style={{ width: "40px" }}
-                value={maxRepsUnbound}
-                onChange={(e) => {
-                  setMaxRepsUnbound(Number(e.target.value));
-                }}
-              />
-            </div>
+            <input
+              type="number"
+              style={{ width: "40px" }}
+              value={maxRepsUnbound}
+              onChange={(e) => setMaxRepsUnbound(Number(e.target.value))}
+            />
           </div>
           <div
             style={{
@@ -129,14 +114,21 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
             }}
           >
             <Typography>Include Optional Params : </Typography>
-            <Toggle
+            <input
+              type="checkbox"
+              checked={includeOptionalParams}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                setIncludeOptionalParams(e.target.checked)
+              }
+            />{" "}
+            {/* <Toggle
               key={`${mapName}-toggle`}
               checked={includeOptionalParams}
               onChange={(e) => {
                 const input = e.target as HTMLInputElement;
                 setIncludeOptionalParams(input.checked);
               }}
-            />
+            /> */}
           </div>
         </div>
       </div>
