@@ -1,11 +1,5 @@
 import { useEffect, useState } from "react";
-import {
-  Button,
-  checkEmpty,
-  Input,
-  toast,
-  Typography,
-} from "pixel-react";
+import { Button, checkEmpty, Input, toast, Typography } from "pixel-react";
 import { FieldCard } from "./FieldCard";
 import {
   useExtractFieldsMutation,
@@ -136,10 +130,15 @@ export const FieldMapping = () => {
         }}
       >
         <FieldCard
+          key={"from"}
           mapName="From XSD Type"
           onSelectionChange={setFromSelection}
         />
-        <FieldCard mapName="To XSD Type" onSelectionChange={setToSelection} />
+        <FieldCard
+          key={"to"}
+          mapName="To XSD Type"
+          onSelectionChange={setToSelection}
+        />
       </div>
 
       <div

@@ -3,7 +3,6 @@ import { XmlGenerator } from "./pages/XmlGenerator";
 import { DependentElement } from "./pages/DependentElement/DependentElement";
 import { IndependentElement } from "./pages/IndependentElement/IndependentElement";
 import { UploadXsd } from "./pages/UploadXsd/UploadXsd";
-import { Toastify } from "pixel-react";
 import { FieldMapping } from "./pages/FieldMapping/FieldMapping";
 
 function App() {

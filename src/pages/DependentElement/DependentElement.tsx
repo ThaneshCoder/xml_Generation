@@ -4,19 +4,12 @@ import {
   useDeleteMappingMutation,
 } from "@/store/XmlServiceData/xmlServiceDataApi";
 import { useNavigate, useParams } from "react-router-dom";
-import {
-  Button,
-  Icon,
-  Tooltip,
-  Search,
-  toast,
-} from "pixel-react";
+import { Button, Icon, Tooltip, Search, toast } from "pixel-react";
 import { GenerateXml } from "./GenerateXml";
 import { EditMapping } from "./EditMapping";
 import { Mapping } from "@/types";
 
 export const DependentElement = () => {
-
   const [mappingList, setMappingList] = useState<Mapping[]>([]);
   const [generateMapping, setGenerateMapping] = useState<Mapping | null>(null);
   const [editMapping, setEditMapping] = useState<Mapping | null>(null);
@@ -162,7 +155,7 @@ export const DependentElement = () => {
               <td style={{ border: "1px solid #ddd", padding: "8px" }}>
                 <Button
                   size="medium"
-                  variant="primary"
+                  variant="secondary"
                   onClick={() => handleGenerate(item)}
                 >
                   Generate

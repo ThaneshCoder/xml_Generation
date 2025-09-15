@@ -30,14 +30,6 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
   const [optionsList, setOptionsList] = useState<
     { label: string; value: string }[]
   >([]);
-  const [FieldList, setFieldList] = useState<
-    { label: string; value: string }[]
-  >([]);
-  const [SelectedFieldList, setSelectedFieldList] = useState<{
-    label: string;
-    value: string;
-  }>({ label: "", value: "" });
-
   const [maxRepsUnbound, setMaxRepsUnbound] = useState(1);
   const [includeOptionalParams, setIncludeOptionalParams] = useState(false);
 
@@ -138,10 +130,11 @@ export const FieldCard = ({ mapName, onSelectionChange }: FieldCardProps) => {
           >
             <Typography>Include Optional Params : </Typography>
             <Toggle
+              key={`${mapName}-toggle`}
               checked={includeOptionalParams}
               onChange={(e) => {
-                console.log(e);
-                setIncludeOptionalParams(e.target.checked);
+                const input = e.target as HTMLInputElement;
+                setIncludeOptionalParams(input.checked);
               }}
             />
           </div>

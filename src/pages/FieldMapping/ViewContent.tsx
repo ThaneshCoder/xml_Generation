@@ -25,6 +25,7 @@ export const ViewContent = ({ type, input, fileName }: ViewContentProps) => {
       blob,
       type === "xml" ? fileName.replace("xsd", "xml") : fileName
     );
+    toast.success("Downloaded File Successfully");
   };
 
   return (

@@ -19,10 +19,10 @@ export const Header = () => {
   }, [path]);
 
   const headerMenuItems = [
-    { label: "Independent Message", path: "/independent" },
-    { label: "Dependent Message", path: "/dependent" },
-    { label: "Fields Mapping", path: "/field-mapping" },
-    { label: "Upload XSD", path: "/upload-xsd" },
+    { label: "XSD Uploader", path: "/upload-xsd" },
+    { label: "XSD Translator", path: "/independent" },
+    { label: "Fields Mapper", path: "/field-mapping" },
+    { label: "Swift Simulator", path: "/dependent" },
   ];
 
   return (

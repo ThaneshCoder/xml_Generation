@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import {
+  AttachmentButton,
   Button,
   Drawer,
   checkEmpty,
@@ -34,6 +35,8 @@ export const GenerateXml = ({
   };
 
   const handleUploadIntoFrom = async (file: File) => {
+    console.log(file);
+
     const text = await file.text();
     setFromContent(text);
   };
@@ -115,20 +118,21 @@ export const GenerateXml = ({
                 Paste
               </Button>
               <label>
-                <input
-                  type="file"
-                  accept=".xml,.txt,.json"
-                  style={{ display: "none" }}
-                  onChange={(e) => {
-                    const file = e.target.files && e.target.files[0];
+                <AttachmentButton
+                  label={""}
+                  isInfoIconRequired={false}
+                  selectedFiles={[]}
+                  buttonLabel="Upload"
+                  onFilesChange={(e) => {
+                    const file = e[0];
                     if (file) handleUploadIntoFrom(file);
-                    if (e.target) e.target.value = "";
                   }}
+                  deleteButton={false}
+                  addAttachmentButton={false}
                 />
-                <Button variant="secondary">Upload</Button>
               </label>
               <Button
-                variant="warning"
+                variant="secondary"
                 onClick={() => setFromContent("")}
                 disabled={!fromContent}
               >

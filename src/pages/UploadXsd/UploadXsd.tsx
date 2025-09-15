@@ -17,9 +17,7 @@ export const UploadXsd = () => {
     try {
       const formData = new FormData();
       formData.append("file", selectedFile[0]);
-      const res = await uploadXsd(formData).unwrap();
-      console.log(res);
-      
+      const res = await uploadXsd(formData).unwrap();      
       if (res.responseCode === 200) {
         toast.success("File Uploaded Successfully");
       } else if (res.responseCode === 500) {
@@ -52,7 +50,7 @@ export const UploadXsd = () => {
           alignItems: "center",
         }}
       >
-        <Typography fontSize={15}>Add XSD file : </Typography>
+        <Typography fontSize={15}>Upload XSD file : </Typography>
         <div style={{ display: "flex" }}>
           <AttachmentButton
             multiple={false}
@@ -81,7 +79,7 @@ export const UploadXsd = () => {
             variant="secondary"
             onClick={handleUpload}
           >
-            Upload to Database
+            Upload
           </Button>
         </div>
       )}
